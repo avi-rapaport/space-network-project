@@ -1,7 +1,8 @@
 from space_network_lib import *
 import time
+class BrokenConnectionError(CommsError):
+    pass
 
-space_net = SpaceNetwork(2)
 
 
 class Satellite(SpaceEntity):
@@ -12,19 +13,19 @@ class Satellite(SpaceEntity):
         return f"{self.name} Received: {packet}"
 
 
-def attempt_transmission(packet):
+def attempt_transmission(network, packet):
     try:
-        space_net.send(packet)
+        network.send(packet)
     except TemporalInterferenceError:
         print("Interference, waiting ...")
         time.sleep(2)
-        attempt_transmission(packet)
+        attempt_transmission(network,packet)
     except DataCorruptedError:
         print("corrupted, retrying...")
-        attempt_transmission(packet)
+        attempt_transmission(network,packet)
+    except LinkTerminatedError:
+        raise BrokenConnectionError("link lost")
+    except OutOfRangeError:
+        raise BrokenConnectionError("Target out of range")
 
 
-sat1 = Satellite("satellite1", 100)
-sat2 = Satellite("satellite2", 200)
-new_message = Packet("i found aliens", sat1, sat2)
-attempt_transmission(new_message)
