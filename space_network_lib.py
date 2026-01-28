@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 import random
 
-
 class CommsError(Exception):
     """Base class for communication errors."""
 
