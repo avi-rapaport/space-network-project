@@ -24,6 +24,11 @@ def attempt_transmission(packet):
     except OutOfRangeError:
         raise BrokenConnectionError("Target out of range")
 
+def smart_send_packet(packet, ent_list):
+
+
+
+
 
 class RelayPacket(Packet):
     def __init__(self, packet_to_relay, sender, proxy):
@@ -54,4 +59,4 @@ class Earth(SpaceEntity):
         print(f"{self.name} Received: {packet}")
 
 
-sat1 = Satellite("satellite1", 100)
+
