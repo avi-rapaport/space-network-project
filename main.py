@@ -1,4 +1,4 @@
-from space_network_lib import *
+
 from stage_file import *
 
 earth = Earth("earth", 0)
@@ -21,4 +21,6 @@ entities = [earth, sat1, sat2, sat3, sat4, sat5]
 # except BrokenConnectionError:
 #     print("Transmission failed")
 
-smart_send_packet(new_message, entities)
+encrypted_msg = EncryptedPacket("hello aliens",earth, sat5)
+
+smart_send_packet(encrypted_msg, entities)
